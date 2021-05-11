@@ -1,0 +1,1 @@
+# argocd-sync-test-sample
