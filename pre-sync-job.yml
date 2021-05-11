@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: job-test-w0
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  template:
+    spec:
+      containers:
+      - name: jobtest
+        image: takuyak/kubectl:v1.19.0
+        command: ['sh', '-c', 'curl -OL https://raw.githubusercontent.com/kubernetes/examples/master/staging/podsecuritypolicy/rbac/pod.yaml && kubectl --kubeconfig /tmp/config apply -f pod.yaml']
+        volumeMounts:
+        - name: kubeconfig
+          mountPath: "/tmp/"
+          readOnly: true
+      restartPolicy: OnFailure
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+      - name: kubeconfig
+        secret:
+          secretName: secret-kubeconfig
