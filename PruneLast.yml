@@ -5,7 +5,7 @@ metadata:
   labels:
     name: nginx-PruneLast
   annotations:
-    argocd.argoproj.io/sync-options: PruneLast=true
+#    argocd.argoproj.io/sync-options: PruneLast=true
     argocd.argoproj.io/sync-wave: "1"
 spec:
   containers:
